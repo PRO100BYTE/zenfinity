@@ -1,0 +1,11 @@
+.Footer {
+    background-color: #222;
+    color: white;
+    padding: 10px;
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .Footer p {
+    text-align: center;
+  }
+  
