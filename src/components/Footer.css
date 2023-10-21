@@ -1,71 +1,11 @@
 .Footer {
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: space-between; /* Распределяем элементы по краям футера */
-  background-color: #333;
-  color: white;
-  padding: 10px;
-  font-family: Montserrat;
-}
-
-.Footer-links {
-  display: flex; /* Делаем ссылки гибкими */
-}
-
-.Footer-link {
-  margin-right: 10px; /* Добавляем отступ справа для ссылок */
-}
-
-.Footer-link:last-child {
-  margin-right: 0; /* Убираем отступ справа для последней ссылки */
-}
-
-.Footer-link:hover {
-  text-decoration: underline; /* Добавляем подчеркивание при наведении на ссылку */
-}
-
-.Footer-copy {
-  font-size: 14px; /* Уменьшаем размер шрифта для копирайта */
-}
-
-/* Добавляем медиа запрос для адаптивности - когда экран меньше или равен 600px, делаем ссылки и копирайт в одну строку и уменьшаем отступы */
-@media screen and (max-width: 600px) {
-  .Footer-links,
-  .Footer-copy {
-    flex-wrap: wrap; /* Разрешаем перенос строк для элементов */
-    margin-bottom: 5px; /* Добавляем отступ снизу для элементов */
-    font-size: 12px; /* Уменьшаем размер шрифта для элементов */
+    background-color: #222;
+    color: white;
+    padding: 10px;
+    font-family: 'Montserrat', sans-serif;
   }
-
-  .Footer-link {
-    margin-right: 5px; /* Уменьшаем отступ справа для ссылок */
-    margin-bottom: 5px; /* Добавляем отступ снизу для ссылок */
-    white-space: nowrap; /* Запрещаем перенос текста внутри ссылок */
-    overflow-x: hidden; /* Скрываем текст, выходящий за границы ссылок по горизонтали */
-    text-overflow: ellipsis; /* Добавляем многоточие в конце текста, выходящего за границы ссылок по горизонтали */
-    max-width: calc(100% / 3 - 10px); /* Ограничиваем максимальную ширину ссылок в зависимости от количества колонок (3) и отступов (5 * 2) */
-    display: inline-block; /* Делаем ссылки строчно-блочными, чтобы применить max-width */
-    box-sizing: border-box; /* Учитываем паддинги и бордеры в ширине элементов */
-    border-right: solid 1px white; /* Добавляем бордер справа для разделения ссылок */
-    padding-right: 5px; /* Добавляем паддинг справа для разделения текста и бордера */
-    text-align: center; /* Выравниваем текст по центру внутри ссылок */
-    line-height: normal; /* Сбрасываем высоту строки для ссылок */
-    vertical-align: middle; /* Выравниваем ссылки по вертикали по середине */
-    height: auto; /* Сбрасываем высоту для ссылок */
-    align-items: normal; /* Сбрасываем выравнивание по вертикали для флекс-элементов */
-    justify-content: normal; /* Сбрасываем выравнивание по горизонтали для флекс-элементов */
-    flex-basis: auto; /* Сбрасываем базовую ширину для флекс-элементов */
-    flex-grow: 0; /* Запрещаем растягивание флекс-элементов при свободном пространстве */
-    flex-shrink: 0; /* Запрещаем сжатие флекс-элементов при нехватке пространства */
+  
+  .Footer p {
+    text-align: center;
   }
-
-  .Footer-link:nth-child(3n) {
-    border-right: none; /* Убираем бордер справа для каждой третьей ссылки */
-    padding-right: 0; /* Убираем паддинг справа для каждой третьей ссылки */
-  }
-}
-
-.Footer p {
-  text-align: center;
-}
+  

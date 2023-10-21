@@ -24,6 +24,7 @@
   background-color: transparent;
   color: white;
   padding: 10px;
+  font-size: 20px;
 }
 
 .Header-search:hover,
@@ -33,10 +34,7 @@
 }
 
 /* Добавляем медиа запрос для адаптивности - когда экран меньше или равен 600px, скрываем логотип и уменьшаем размер кнопок */
-@media screen and (max-width: 600px) {
-  .Header-logo {
-    display: none;
-  }
+@media screen and (max-width: 500px) {
 
   .Header-search,
   .Header-login {
