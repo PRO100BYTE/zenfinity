@@ -14,9 +14,9 @@ function PostList({ posts }) {
     return posts.filter((post, index, array) => array.findIndex(p => p.title === post.title) === index);
   };
 
-  // Получаем отсортированный и уникальный список постов
-  const sortedPosts = sortPosts(posts);
-  const uniquePosts = removeDuplicates(sortedPosts);
+// Получаем отсортированный и уникальный список постов
+const sortedPosts = posts ? sortPosts(posts) : []; // Проверяем, что posts не undefined
+const uniquePosts = removeDuplicates(sortedPosts);
 
   return (
     <div className="PostList">
