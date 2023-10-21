@@ -1,36 +1,46 @@
 .Header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #222;
-    color: white;
-    padding: 10px;
-    font-family: 'Montserrat', sans-serif;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Распределяем элементы по краям хедера */
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  font-family: Montserrat;
   
+}
+
+.Header-logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.Header-buttons {
+  display: flex; /* Делаем кнопки гибкими */
+}
+
+.Header-search,
+.Header-login {
+  border: none;
+  background-color: transparent;
+  color: white;
+  padding: 10px;
+}
+
+.Header-search:hover,
+.Header-login:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Добавляем медиа запрос для адаптивности - когда экран меньше или равен 600px, скрываем логотип и уменьшаем размер кнопок */
+@media screen and (max-width: 600px) {
   .Header-logo {
-    font-size: 25px;
-    margin-left: 10px;
-    font-weight: bold;
+    display: none;
   }
-  
-  .Header-buttons {
-    display: flex;
-  }
-  
+
   .Header-search,
   .Header-login {
-    border: none;
-    background-color: transparent;
-    color: white;
-    font-size: 20px;
-    margin-left: 20px;
-    margin-right: 10px;
-    cursor: pointer;
+    padding: 5px;
+    font-size: 16px;
   }
-  
-  .Header-search:hover,
-  .Header-login:hover {
-    color: #ccc;
-  }
-  
+}
