@@ -1,35 +1,7 @@
 /* Задаем общие стили для всего приложения */
 * {
-    /* Используем темную тему */
-    --background: #191919;
-    --text: #ffffff;
-    --accent: #4bb34b;
     /* Используем шрифт Roboto */
     font-family: Roboto, sans-serif;
-  }
-  
-  /* Задаем стили для элемента header */
-  .header {
-    /* Используем флекс-бокс для горизонтального расположения элементов */
-    display: flex;
-    /* Выравниваем элементы по центру */
-    align-items: center;
-    /* Распределяем элементы по краям */
-    justify-content: space-between;
-  }
-  
-  /* Задаем стили для элемента title */
-  .title {
-    /* Используем большой размер шрифта */
-    font-size: 24px;
-    /* Используем жирный стиль шрифта */
-    font-weight: bold;
-  }
-  
-  /* Задаем стили для элемента buttons */
-  .buttons {
-    /* Используем флекс-бокс для горизонтального расположения элементов */
-    display: flex;
   }
   
   /* Задаем стили для элемента post */
@@ -37,18 +9,28 @@
     /* Используем флекс-бокс для вертикального расположения элементов */
     display: flex;
     flex-direction: column;
+    /* Добавляем отступы внутри элемента */
+    padding: 16px;
   }
   
   /* Задаем стили для элемента author */
   .author {
-    /* Используем средний размер шрифта */
-    font-size: 18px;
+    /* Используем флекс-бокс для горизонтального расположения элементов */
+    display: flex;
+    /* Выравниваем элементы по центру */
+    align-items: center;
+  }
+  
+  /* Задаем стили для элемента Avatar внутри author */
+  .author > .Avatar {
+    /* Добавляем отступ справа */
+    margin-right: 8px;
   }
   
   /* Задаем стили для элемента content */
   .content {
-    /* Используем маленький размер шрифта */
-    font-size: 14px;
+    /* Добавляем отступ сверху */
+    margin-top: 8px;
   }
   
   /* Задаем стили для элемента actions */
@@ -57,10 +39,10 @@
     display: flex;
   }
   
-  /* Задаем стили для иконок внутри actions */
-  .actions > svg {
+  /* Задаем стили для элемента Button внутри actions */
+  .actions > .Button {
     /* Добавляем отступ справа */
-    margin-right: 10px;
+    margin-right: 8px;
   }
   
   /* Задаем стили для элемента spinner */
@@ -88,7 +70,7 @@
       opacity: 0;
       height: 0;
       transform: translateY(-50%);
-      visibility: visible;
+      visibility: hidden;
       overflow: hidden;
       transition-property: opacity, height, transform, visibility, overflow;
       transition-duration: .5s, .5s, .5s, .5s, .5s;
@@ -99,7 +81,7 @@
     /* Конечное состояние анимации - прозрачность и высота равны единице */
     to {
       opacity: 1;
-      height: 1;
+      height: auto;
       transform: translateY(0);
       visibility: visible;
       overflow: visible;

@@ -1,5 +1,6 @@
 // Импортируем axios библиотеку для выполнения HTTP запросов
 import axios from 'axios';
+import './style.css';
 
 // Создаем функцию fetchPosts, которая принимает параметр page
 export const fetchPosts = (page) => {

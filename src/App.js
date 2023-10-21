@@ -2,12 +2,18 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 // Импортируем VKUI библиотеку с необходимыми компонентами и иконками
 import { View, Panel, PanelHeader, PanelHeaderBack, PanelHeaderButton,
-  Group, CellButton, Div, Spinner, Snackbar } from '@vkontakte/vkui';
+  Group, CellButton, Div, Spinner, Snackbar,
+  Epic, Tabbar, TabbarItem,
+  CardGrid, Card,
+  Avatar,
+  Text,
+  Button } from '@vkontakte/vkui';
 import { Icon28SearchOutline, Icon28UserCircleOutline,
   Icon28LikeOutline, Icon28CommentOutline,
   Icon28BookmarkOutline } from '@vkontakte/icons';
 // Импортируем файл posts.js с функцией для получения постов
 import { fetchPosts } from './posts';
+import './style.css';
 
 // Создаем компонент App
 function App() {
@@ -72,48 +78,60 @@ function App() {
       });
   }, [page]); // Зависимость от page
 
+  // Создаем функцию showAlert, которая будет показывать сообщение о недоступности функционала
+  const showAlert = () => {
+    // Устанавливаем значение error в 'Данный функционал пока недоступен'
+    setError('Данный функционал пока недоступен');
+  };
+
   // Возвращаем JSX разметку компонента App
   return (
-    <View activePanel="main">
-      <Panel id="main">
-        <PanelHeader>
-          <Div className="header">
-            <div className="title">Zenfinity</div>
-            <div className="buttons">
-              <PanelHeaderButton><Icon28SearchOutline /></PanelHeaderButton>
-              <PanelHeaderButton><Icon28UserCircleOutline /></PanelHeaderButton>
-            </div>
+    <Epic activeStory="main">
+      <View id="main" activePanel="main">
+        <Panel id="main">
+          <PanelHeader
+            left={<PanelHeaderButton onClick={showAlert}><Icon28SearchOutline /></PanelHeaderButton>}
+            right={<PanelHeaderButton onClick={showAlert}><Icon28UserCircleOutline /></PanelHeaderButton>}
+          >
+            Zenfinity
+          </PanelHeader>
+          <Group>
+            <CardGrid>
+              {posts.map((post) => (
+                <Card key={post.id} size="l" mode="shadow">
+                  <div className="post">
+                    <div className="author">
+                      <Avatar size={48} src={`https://i.pravatar.cc/150?u=${post.id}`} />
+                      <Text weight="medium">{post.title}</Text>
+                    </div>
+                    <div className="content">
+                      <Text weight="regular">{post.body}</Text>
+                    </div>
+                    <div className="actions">
+                      <Button mode="tertiary" before={<Icon28LikeOutline />} onClick={showAlert}>Нравится</Button>
+                      <Button mode="tertiary" before={<Icon28CommentOutline />} onClick={showAlert}>Комментировать</Button>
+                      <Button mode="tertiary" before={<Icon28BookmarkOutline />} onClick={showAlert}>Сохранить</Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+              {loading && (
+                <Div className="spinner">
+                  <Spinner size="large" />
+                </Div>
+              )}
+              {error && (
+                <Snackbar>{error}</Snackbar>
+              )}
+              <div ref={loader} className="loader"></div>
+            </CardGrid>
+          </Group>
+          <Div className="footer">
+            Проект был разработан с любовью ❤️ командой PRO100BYTE
           </Div>
-        </PanelHeader>
-        <Group>
-          {posts.map((post) => (
-            <CellButton key={post.id} multiline>
-              <div className="post">
-                <div className="author">{post.title}</div>
-                <div className="content">{post.body}</div>
-                <div className="actions">
-                  <Icon28LikeOutline />
-                  <Icon28CommentOutline />
-                  <Icon28BookmarkOutline />
-                </div>
-              </div>
-            </CellButton>
-          ))}
-          {loading && (
-            <Div className="spinner">
-              <Spinner size="large" />
-            </Div>
-          )}
-          {error && (
-            <Snackbar>{error}</Snackbar>
-          )}
-          <div ref={loader} className="loader"></div>
-        </Group>
-        <Div className="footer">
-          Разработано с ❤️ командой PRO100BYTE
-        </Div>
-      </Panel>
-    </View>
+        </Panel>
+      </View>
+    </Epic>
   );
 }
 
