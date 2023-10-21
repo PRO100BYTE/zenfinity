@@ -8,14 +8,12 @@ function App() {
   // Состояние для хранения списка постов
   const [posts, setPosts] = useState([]);
 
-  // Функция для получения постов из RSS или API
+  // Функция для получения постов из API
   const fetchPosts = async () => {
-    // Используем сервис https://rss2json.com/ для преобразования RSS в JSON
-    const rssUrl = 'https://yandex.com/blog/ya-direct-api/rss.xml'; // RSS источник постов
-    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`; // API для получения JSON
+    const apiUrl = 'https://jsonplaceholder.typicode.com/posts'; // API адрес для получения постов
     const response = await fetch(apiUrl); // Отправляем запрос к API
     const data = await response.json(); // Получаем данные в формате JSON
-    const items = data.items; // Извлекаем массив постов из данных
+    const items = data.articles; // Извлекаем массив постов из данных
     setPosts(items); // Обновляем состояние списка постов
   };
 

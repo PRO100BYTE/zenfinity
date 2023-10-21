@@ -6,7 +6,7 @@ function PostList({ posts }) {
   // Функция для сортировки постов по некоторым правилам
   // В данном случае, сортируем по дате публикации в обратном порядке
   const sortPosts = (posts) => {
-    return posts.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+    return posts.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
   };
 
   // Функция для удаления дубликатов постов по заголовку
@@ -14,16 +14,16 @@ function PostList({ posts }) {
     return posts.filter((post, index, array) => array.findIndex(p => p.title === post.title) === index);
   };
 
-// Получаем отсортированный и уникальный список постов
-const sortedPosts = posts ? sortPosts(posts) : []; // Проверяем, что posts не undefined
-const uniquePosts = removeDuplicates(sortedPosts);
+  // Получаем отсортированный и уникальный список постов
+  const sortedPosts = posts ? sortPosts(posts) : []; // Проверяем, что posts не undefined
+  const uniquePosts = removeDuplicates(sortedPosts);
 
   return (
     <div className="PostList">
       {uniquePosts.map((post, index) => (
         <Post key={index} post={post} />))} {/* Отображаем компонент поста для каждого элемента массива */}
-    </div>
-  );
+    </div>)
+  ;
 }
 
 export default PostList;
