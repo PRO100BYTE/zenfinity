@@ -1,0 +1,120 @@
+/* Задаем общие стили для всего приложения */
+* {
+    /* Используем темную тему */
+    --background: #191919;
+    --text: #ffffff;
+    --accent: #4bb34b;
+    /* Используем шрифт Roboto */
+    font-family: Roboto, sans-serif;
+  }
+  
+  /* Задаем стили для элемента header */
+  .header {
+    /* Используем флекс-бокс для горизонтального расположения элементов */
+    display: flex;
+    /* Выравниваем элементы по центру */
+    align-items: center;
+    /* Распределяем элементы по краям */
+    justify-content: space-between;
+  }
+  
+  /* Задаем стили для элемента title */
+  .title {
+    /* Используем большой размер шрифта */
+    font-size: 24px;
+    /* Используем жирный стиль шрифта */
+    font-weight: bold;
+  }
+  
+  /* Задаем стили для элемента buttons */
+  .buttons {
+    /* Используем флекс-бокс для горизонтального расположения элементов */
+    display: flex;
+  }
+  
+  /* Задаем стили для элемента post */
+  .post {
+    /* Используем флекс-бокс для вертикального расположения элементов */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Задаем стили для элемента author */
+  .author {
+    /* Используем средний размер шрифта */
+    font-size: 18px;
+  }
+  
+  /* Задаем стили для элемента content */
+  .content {
+    /* Используем маленький размер шрифта */
+    font-size: 14px;
+  }
+  
+  /* Задаем стили для элемента actions */
+  .actions {
+    /* Используем флекс-бокс для горизонтального расположения элементов */
+    display: flex;
+  }
+  
+  /* Задаем стили для иконок внутри actions */
+  .actions > svg {
+    /* Добавляем отступ справа */
+    margin-right: 10px;
+  }
+  
+  /* Задаем стили для элемента spinner */
+  .spinner {
+    /* Выравниваем по центру */
+    text-align: center;
+  }
+  
+  /* Задаем стили для элемента footer */
+  .footer {
+    /* Используем маленький размер шрифта */
+    font-size: 12px;
+  }
+  
+  /* Задаем стили для элемента loader */
+  .loader {
+    /* Делаем невидимым на экране */
+    visibility: hidden;
+  }
+  
+  /* Создаем анимацию подгрузки постов с именем load-more */
+  @keyframes load-more {
+    /* Начальное состояние анимации - прозрачность и высота равны нулю */
+    from {
+      opacity: 0;
+      height: 0;
+      transform: translateY(-50%);
+      visibility: visible;
+      overflow: hidden;
+      transition-property: opacity, height, transform, visibility, overflow;
+      transition-duration: .5s, .5s, .5s, .5s, .5s;
+      transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out;
+      transition-delay: .5s, .5s, .5s, .5s, .5s;
+      transition-fill-mode: forwards, forwards, forwards, forwards, forwards;
+    }
+    /* Конечное состояние анимации - прозрачность и высота равны единице */
+    to {
+      opacity: 1;
+      height: 1;
+      transform: translateY(0);
+      visibility: visible;
+      overflow: visible;
+      transition-property: opacity, height, transform, visibility, overflow;
+      transition-duration: .5s, .5s, .5s, .5s, .5s;
+      transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out;
+      transition-delay: 0s, 0s, 0s, 0s, 0s;
+      transition-fill-mode: forwards, forwards, forwards, forwards, forwards;
+    }
+  }
+  
+  /* Применяем анимацию load-more к элементам post при добавлении в DOM */
+  .post {
+    animation-name: load-more;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+  }
+  
