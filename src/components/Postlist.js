@@ -23,11 +23,6 @@ function PostList({ posts, limit }) {
     return posts.filter((post, index, array) => array.findIndex(p => p.title === post.title) === index);
   };
 
-  // Функция для перемешивания постов в случайном порядке
-  const shufflePosts = (posts) => {
-    return posts.sort(() => Math.random() - 0.5);
-  };
-
   // Получаем отсортированный и уникальный список постов
   const sortedPosts = posts ? sortPosts(posts) : []; // Проверяем, что posts не undefined
   const uniquePosts = removeDuplicates(sortedPosts);
@@ -35,12 +30,9 @@ function PostList({ posts, limit }) {
   // Получаем список постов, ограниченный заданным лимитом
   const limitedPosts = uniquePosts.slice(0, limit);
 
-  // Получаем список постов, перемешанный в случайном порядке
-  const shuffledPosts = shufflePosts(limitedPosts);
-
   return (
     <div className="PostList">
-      {shuffledPosts.map((post, index) => (
+      {limitedPosts.map((post, index) => (
         <Post key={index} post={post} />))} {/* Отображаем компонент поста для каждого элемента массива */}
     </div>);
 }

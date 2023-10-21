@@ -1,5 +1,6 @@
 .Footer {
   display: flex;
+  text-align: center;
   align-items: center;
   justify-content: space-between; /* Распределяем элементы по краям футера */
   background-color: #333;
@@ -63,4 +64,8 @@
     border-right: none; /* Убираем бордер справа для каждой третьей ссылки */
     padding-right: 0; /* Убираем паддинг справа для каждой третьей ссылки */
   }
+}
+
+.Footer p {
+  text-align: center;
 }
