@@ -1,139 +1,149 @@
-// Импортируем React, useState, useEffect, useRef и useLayoutEffect хуки
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
-// Импортируем VKUI библиотеку с необходимыми компонентами и иконками
-import { View, Panel, PanelHeader, PanelHeaderBack, PanelHeaderButton,
-  Group, CellButton, Div, Spinner, Snackbar,
-  Epic, Tabbar, TabbarItem,
-  CardGrid, Card,
-  Avatar,
-  Text,
-  Button } from '@vkontakte/vkui';
-import { Icon28SearchOutline, Icon28UserCircleOutline,
-  Icon28LikeOutline, Icon28CommentOutline,
-  Icon28BookmarkOutline } from '@vkontakte/icons';
-// Импортируем файл posts.js с функцией для получения постов
-import { fetchPosts } from './posts';
-import './style.css';
+import React, { useState, useEffect } from 'react';
+import { View, Panel, PanelHeader, PanelHeaderBack, Group, CellButton, Div, Text, Caption, Counter } from '@vkontakte/vkui';
+import '@vkontakte/vkui/dist/vkui.css';
+import { Icon28CommentOutline, Icon28BookmarkOutline, Icon28LikeOutline } from '@vkontakte/icons';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { FixedSizeList as List } from 'react-window';
+import localforage from 'localforage';
+import Header from './Header';
+import Footer from './Footer';
 
-// Создаем компонент App
-function App() {
-  // Создаем состояния posts, loading, error, hasMore и page
+const App = () => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-  // Создаем ссылку на элемент loader
-  const loader = useRef(null);
-
-  // Создаем функцию handleObserver для наблюдения за элементом loader
-  const handleObserver = (entries) => {
-    // Получаем первый элемент из массива entries
-    const target = entries[0];
-    // Если элемент видим на экране и есть еще посты для загрузки
-    if (target.isIntersecting && hasMore) {
-      // Увеличиваем значение page на единицу
-      setPage((prevPage) => prevPage + 1);
-    }
-  };
-
-  // Используем хук useLayoutEffect для создания наблюдателя за элементом loader
-  useLayoutEffect(() => {
-    // Создаем экземпляр IntersectionObserver с функцией handleObserver
-    const observer = new IntersectionObserver(handleObserver);
-    // Если есть ссылка на элемент loader
-    if (loader.current) {
-      // Начинаем наблюдать за элементом loader
-      observer.observe(loader.current);
-    }
-  }, [loader]);
-
-  // Используем хук useEffect для вызова функции fetchPosts с параметром page
   useEffect(() => {
-    // Устанавливаем значение loading в true
-    setLoading(true);
-    // Обнуляем значение error
-    setError('');
-    // Вызываем функцию fetchPosts с параметром page
-    fetchPosts(page)
-      .then((data) => {
-        // Если получили данные
-        if (data) {
-          // Обновляем массив posts с помощью оператора расширения
-          setPosts((prevPosts) => [...prevPosts, ...data]);
-          // Устанавливаем значение hasMore в зависимости от длины массива data
-          setHasMore(data.length > 0);
-        }
-      })
-      .catch((err) => {
-        // Если произошла ошибка
-        // Устанавливаем значение error в сообщение об ошибке
-        setError(err.message);
-      })
-      .finally(() => {
-        // В любом случае
-        // Устанавливаем значение loading в false
-        setLoading(false);
-      });
-  }, [page]); // Зависимость от page
+    // Загрузить посты из локального хранилища, если есть
+    localforage.getItem('posts').then((value) => {
+      if (value) {
+        setPosts(value);
+      }
+    });
+  }, []);
 
-  // Создаем функцию showAlert, которая будет показывать сообщение о недоступности функционала
-  const showAlert = () => {
-    // Устанавливаем значение error в 'Данный функционал пока недоступен'
-    setError('Данный функционал пока недоступен');
+  useEffect(() => {
+    // Сохранить посты в локальное хранилище при изменении
+    localforage.setItem('posts', posts);
+  }, [posts]);
+
+  const fetchPosts = () => {
+    // Загрузить посты с сервера
+    fetch(`https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=5`)
+      .then((response) => response.json())
+      .then((data) => {
+        // Сортировать посты по дате и рейтингу
+        data.sort((a, b) => {
+          // Сгенерировать случайные значения для лайков, комментариев и просмотров
+          a.likes = Math.floor(Math.random() * 1000);
+          a.comments = Math.floor(Math.random() * 500);
+          a.views = Math.floor(Math.random() * 2000);
+          // Вычислить рейтинг по формуле
+          a.rating = a.likes * 0.5 + a.comments * 0.3 + a.views * 0.2;
+          b.rating = b.likes * 0.5 + b.comments * 0.3 + b.views * 0.2;
+          // Сравнить дату и рейтинг
+          if (a.date > b.date) return -1;
+          if (a.date < b.date) return 1;
+          if (a.rating > b.rating) return -1;
+          if (a.rating < b.rating) return 1;
+          return 0;
+        });
+        // Фильтровать посты, чтобы не было повторений
+        data = data.filter((post) => !posts.some((p) => p.id === post.id));
+        // Добавить посты в состояние
+        setPosts((prevPosts) => [...prevPosts, ...data]);
+        // Увеличить номер страницы
+        setPage((prevPage) => prevPage + 1);
+        // Проверить, есть ли еще посты для загрузки
+        if (data.length < 5) {
+          setHasMore(false);
+        }
+      });
   };
 
-  // Возвращаем JSX разметку компонента App
-  return (
-    <Epic activeStory="main">
-      <View id="main" activePanel="main">
-        <Panel id="main">
-          <PanelHeader
-            left={<PanelHeaderButton onClick={showAlert}><Icon28SearchOutline /></PanelHeaderButton>}
-            right={<PanelHeaderButton onClick={showAlert}><Icon28UserCircleOutline /></PanelHeaderButton>}
-          >
-            Zenfinity
-          </PanelHeader>
-          <Group>
-            <CardGrid>
-              {posts.map((post) => (
-                <Card key={post.id} size="l" mode="shadow">
-                  <div className="post">
-                    <div className="author">
-                      <Avatar size={48} src={`https://i.pravatar.cc/150?u=${post.id}`} />
-                      <Text weight="medium">{post.title}</Text>
-                    </div>
-                    <div className="content">
-                      <Text weight="regular">{post.body}</Text>
-                    </div>
-                    <div className="actions">
-                      <Button mode="tertiary" before={<Icon28LikeOutline />} onClick={showAlert}>Нравится</Button>
-                      <Button mode="tertiary" before={<Icon28CommentOutline />} onClick={showAlert}>Комментировать</Button>
-                      <Button mode="tertiary" before={<Icon28BookmarkOutline />} onClick={showAlert}>Сохранить</Button>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-              {loading && (
-                <Div className="spinner">
-                  <Spinner size="large" />
-                </Div>
-              )}
-              {error && (
-                <Snackbar>{error}</Snackbar>
-              )}
-              <div ref={loader} className="loader"></div>
-            </CardGrid>
-          </Group>
-          <Div className="footer">
-            Проект был разработан с любовью ❤️ командой PRO100BYTE
-          </Div>
-        </Panel>
-      </View>
-    </Epic>
-  );
-}
+  const Post = ({ index, style }) => {
+    // Компонент для отображения одного поста
+    const post = posts[index];
+    // Состояние для лайка, комментирования и сохранения
+    const [liked, setLiked] = useState(false);
+    const [commented, setCommented] = useState(false);
+    const [saved, setSaved] = useState(false);
+    return (
+      <Div style={style}>
+        <div style={{ backgroundColor: '#CCCCCC', borderRadius: '10px', padding: '10px', maxWidth: '600px', marginTop: '20px' }}>
+          <Caption level="2" weight="regular" style={{ color: '#000000' }}>
+            {post.title}
+          </Caption>
+          <Text weight="regular" style={{ color: '#000000' }}>
+            {post.body}
+          </Text>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Icon28LikeOutline fill={liked ? '#FF0000' : '#000000'} onClick={() => {
+                // Изменить состояние лайка и счетчик лайков
+                setLiked((prevLiked) => !prevLiked);
+                post.likes += liked ? -1 : 1;
+                // Вывести сообщение о недоступности функции
+                alert('Лайк пока недоступен');
+              }} />
+              <Counter mode="secondary" style={{ marginLeft: '5px' }}>
+                {post.likes}
+              </Counter>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Icon28CommentOutline fill={commented ? '#FF0000' : '#000000'} onClick={() => {
+                // Изменить состояние комментирования и счетчик комментариев
+                setCommented((prevCommented) => !prevCommented);
+                post.comments += commented ? -1 : 1;
+                // Вывести сообщение о недоступности функции
+                alert('Комментирование пока недоступно');
+              }} />
+              <Counter mode="secondary" style={{ marginLeft: '5px' }}>
+                {post.comments}
+              </Counter>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Icon28BookmarkOutline fill={saved ? '#FF0000' : '#000000'} onClick={() => {
+                // Изменить состояние сохранения и счетчик просмотров
+                setSaved((prevSaved) => !prevSaved);
+                post.views += saved ? -1 : 1;
+                // Вывести сообщение о недоступности функции
+                alert('Сохранение пока недоступно');
+              }} />
+              <Counter mode="secondary" style={{ marginLeft: '5px' }}>
+                {post.views}
+              </Counter>
+            </div>
+          </div>
+        </div>
+      </Div>
+    );
+  };
 
-// Экспортируем компонент App по умолчанию
+  return (
+    <View activePanel="main" style={{ backgroundColor: '#000000' }}>
+      <Header />
+      <Panel id="main">
+        <Group header={<Header mode="secondary">Бесконечная лента публикаций</Header>}>
+          <InfiniteScroll
+            dataLength={posts.length}
+            next={fetchPosts}
+            hasMore={hasMore}
+            loader={<h4>Загрузка...</h4>}
+            endMessage={<h4>Больше нет публикаций</h4>}
+            style={{ overflow: 'hidden' }}
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              {posts.map((post, index) => (
+                <Post key={post.id} index={index} style={{ width: '80%' }} />
+              ))}
+            </div>
+          </InfiniteScroll>
+        </Group>
+      </Panel>
+      <Footer />
+    </View>
+  );
+};
+
 export default App;

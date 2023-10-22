@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './style.css';
 
 // Отрисовываем App компонент в элементе с id root
 ReactDOM.render(
