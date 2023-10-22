@@ -22,3 +22,6 @@
    `npm install`
 3. Запустите сервер разработки: \
    `npm start`
+
+## Скринкаст с демонстрацией интерфейса приложения
+<video width="630" height="300" src="https://github.com/PRO100BYTE/zenfinity/raw/main/screencast.mov"></video>
