@@ -1,4 +1,5 @@
 import React from 'react';
+import md5 from 'md5'; // Импортируем библиотеку md5
 import './Post.css';
 
 function Post({ post }) {
@@ -20,13 +21,13 @@ function Post({ post }) {
   return (
     <div className="Post">
       <div className="Post-header">
-        <img src={`https://robohash.org/${post.userId}?set=set4`} alt="Автор" className="Post-avatar" /> {/* Отображаем изображение автора поста */}
-        <div className="Post-author">Пользователь {post.userId}</div> {/* Отображаем имя автора поста */}
+        <img src={`https://www.gravatar.com/avatar/${md5(post.author.email)}`} alt="Автор" className="Post-avatar" /> {/* Отображаем изображение автора поста с использованием Gravatar */}
+        <div className="Post-author">{post.author.name}</div> {/* Отображаем имя автора поста */}
       </div>
       <div className="Post-content">
         <h3 className="Post-title">{post.title}</h3> {/* Отображаем заголовок поста */}
-        <p className="Post-description">{post.body.slice(0,300)}...</p> {/* Отображаем описание поста, сокращенное до 300 символов */}
-        <a href={`https://jsonplaceholder.typicode.com/posts/${post.id}`} target="_blank" rel="noreferrer" className="Post-link">Читать далее</a> {/* Отображаем ссылку на полный текст поста */}
+        <p className="Post-description">{post.excerpt.slice(0,300)}...</p> {/* Отображаем описание поста, сокращенное до 300 символов */}
+        <a href={post.URL} target="_blank" rel="noreferrer" className="Post-link">Читать далее</a> {/* Отображаем ссылку на полный текст поста */}
       </div>
       <div className="Post-footer">
         <div className="Post-buttons">

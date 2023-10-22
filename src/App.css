@@ -11,3 +11,10 @@
   .App > .PostList {
     flex-grow: 1;
   }
+
+  .no-more-posts {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+  }
