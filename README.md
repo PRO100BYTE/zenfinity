@@ -1,6 +1,7 @@
 # Zenfinity - адаптивное Web-приложение с бесконечной лентой публикаций
 
 Разработано на межрегиональном хакатоне TulaHack 2.0 Accelerator в рамках решения кейса №15
+
 Работает на ReactJS и получает посты в JSON формате из сервиса [JSONPlaceholder](https://jsonplaceholder.typicode.com/posts)
 
 ## Требования к приложению:
