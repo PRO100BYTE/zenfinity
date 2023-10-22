@@ -1,0 +1,11 @@
+.PostList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.Post {
+  margin-bottom: 20px;
+  width: 600px; /* Добавляем фиксированную ширину для блоков с постами */
+}

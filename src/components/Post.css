@@ -1,0 +1,68 @@
+.Post {
+    background-color: #333;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .Post-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .Post-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  
+  .Post-author {
+    margin-left: 10px;
+  }
+  
+  .Post-content {
+    padding: 10px;
+  }
+  
+  .Post-title {
+    margin-bottom: 10px;
+  }
+  
+  .Post-description {
+    margin-bottom: 10px;
+  }
+  
+  .Post-link {
+    color: white;
+  }
+  
+  .Post-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .Post-buttons {
+    display: flex;
+  }
+  
+  .Post-like,
+  .Post-comment,
+  .Post-save {
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 18px;
+    margin-left: 20px;
+    cursor: pointer;
+  }
+  
+  .Post-like:hover,
+  .Post-comment:hover,
+  .Post-save:hover {
+    color: #ccc;
+  }
+  

@@ -1,0 +1,13 @@
+.App {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .App > * {
+    flex-shrink: 0;
+  }
+  
+  .App > .PostList {
+    flex-grow: 1;
+  }
