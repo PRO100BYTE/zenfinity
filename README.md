@@ -4,6 +4,8 @@
 
 Работает на ReactJS и получает посты в JSON формате из сервиса [JSONPlaceholder](https://jsonplaceholder.typicode.com/posts)
 
+Скринкаст с демонстрацией интерфейса приложения: [screencast](https://github.com/PRO100BYTE/zenfinity/raw/main/screencast.mov)
+
 ## Требования к приложению:
 1. Публикации сортируются по некоторым правилам и не должны повторяться
 2. Важно оптимизировать загрузку и отображение элементов ленты
@@ -23,4 +25,3 @@
 3. Запустите сервер разработки: \
    `npm start`
 
-## Скринкаст с демонстрацией интерфейса приложения: [screencast](https://github.com/PRO100BYTE/zenfinity/raw/main/screencast.mov)
